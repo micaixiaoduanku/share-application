@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">乐享</string>
+    <string name="action_settings">Settings</string>
+    <string name="tips_input_apk_name">请输入分享应用的名字</string>
+    <string name="tips_input_phone_number">请输入对方手机号码</string>
+    <string name="tips_input_message">请输入你的留言</string>
+    <string name="share_btn">分享</string>
+
+</resources>
