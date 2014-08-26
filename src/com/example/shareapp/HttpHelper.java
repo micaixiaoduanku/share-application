@@ -21,6 +21,10 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.example.shareapp.AppInfoItem;
 
 
 public class HttpHelper {
@@ -36,7 +40,7 @@ public class HttpHelper {
 		return instance;
 	}
 	
-	public void startShare(final String packageName){
+	public void startShare(final AppInfoItem appinfoitem){
 		new Thread(){
 
 			@Override
@@ -45,7 +49,7 @@ public class HttpHelper {
 				super.run();
 				String result = "";
 				try{
-					URL url = new URL(url_str+packageName);
+					URL url = new URL(url_str+appinfoitem.getPkgname());
 					HttpURLConnection urlConn = (HttpURLConnection)url.openConnection();
 					InputStreamReader in = new InputStreamReader(urlConn.getInputStream());
 					BufferedReader bufferedReader = new BufferedReader(in);
@@ -62,8 +66,17 @@ public class HttpHelper {
 					
 				}
 				TriggerInfo tri = new TriggerInfo(TriggerID.MESSAGE_GET_COMPALTED);
-				tri.m_String1 = result;
-				HandlerControl.getInstance().sendTrigger(tri);
+				try {
+					JSONObject json = new JSONObject(result);
+					int returnCode =json.getInt("retcode");
+					String url = json.getString("short");
+					tri.m_String1 = returnCode+";"+appinfoitem.getAppname()+"-"+url;
+					HandlerControl.getInstance().sendTrigger(tri);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 			
 		}.start();

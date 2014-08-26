@@ -30,7 +30,6 @@ import android.widget.Toast;
 public class ShareActivity extends Activity implements HandlerListener{
 	private Button share_Btn = null;
 	private EditText appName = null;
-	private EditText message = null;
 	private ListView list_prompt = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +55,7 @@ public class ShareActivity extends Activity implements HandlerListener{
 				// TODO Auto-generated method stub
 				AppInfoItem appInfoItem = AppDataHelper.getInstance().getAppInfoItem(appName.getText().toString());
 				if(appInfoItem != null){
-					String packageName = appInfoItem.getPkgname();
-					HttpHelper.getInstance().startShare(packageName);
+					HttpHelper.getInstance().startShare(appInfoItem);
 				}
 				
 			}
@@ -105,7 +103,6 @@ public class ShareActivity extends Activity implements HandlerListener{
 	private void findViews(){
 		share_Btn = (Button)findViewById(R.id.share_btn);
 		appName = (EditText)findViewById(R.id.app_name);
-		message = (EditText)findViewById(R.id.message);
 		list_prompt = (ListView)findViewById(R.id.fuzzy_prompt);
 	}
 	@Override
@@ -120,26 +117,39 @@ public class ShareActivity extends Activity implements HandlerListener{
 		int triId = triggerInfo.GetTriggerID();
 		switch(triId){
 		 case TriggerID.MESSAGE_GET_COMPALTED:
-			 try {
-				JSONObject json = new JSONObject(triggerInfo.GetString1());
-				int returnCode =json.getInt("retcode");
-				if(returnCode == 0){
-					String url = json.getString("short");
-					String msg = message.getText().toString();
-					String sendMsg = msg+" 请点击: "+url;
-					Intent intent2 = new Intent(); intent2.setAction(Intent.ACTION_SEND);
-					intent2.setType("text/plain");
-					intent2.putExtra(Intent.EXTRA_TEXT, sendMsg );  
-					startActivity(Intent.createChooser(intent2, "Share via"));
-					Toast.makeText(this, sendMsg, 1000).show();
-					
-				}else{				
-					Toast.makeText(this, "分享失败", 1000).show();
-				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			 String result = triggerInfo.GetString1();
+			 String retcode = result.substring(0, result.indexOf(';'));
+			 String appName = result.substring(retcode.length()+1,result.indexOf('-'));
+			 String url = result.substring(retcode.length()+appName.length()+2, result.length());
+			 Log.i("tag", "result "+result);
+			 Log.i("tag", "retcode "+retcode);
+			 Log.i("tag", "appName "+appName);
+			 Log.i("tag", "url "+url);
+				String sendMsg = appName+ " - "+url;
+				Intent intent2 = new Intent(); intent2.setAction(Intent.ACTION_SEND);
+				intent2.setType("text/plain");
+				intent2.putExtra(Intent.EXTRA_TEXT, sendMsg );  
+				startActivity(Intent.createChooser(intent2, "Share via"));
+				Toast.makeText(this, sendMsg, 1000).show();
+//			 try {
+//				JSONObject json = new JSONObject(triggerInfo.GetString1());
+//				int returnCode =json.getInt("retcode");
+//				if(returnCode == 0){
+//					String url = json.getString("short");
+//					String sendMsg = " 请点击: "+url;
+//					Intent intent2 = new Intent(); intent2.setAction(Intent.ACTION_SEND);
+//					intent2.setType("text/plain");
+//					intent2.putExtra(Intent.EXTRA_TEXT, sendMsg );  
+//					startActivity(Intent.createChooser(intent2, "Share via"));
+//					Toast.makeText(this, sendMsg, 1000).show();
+//					
+//				}else{				
+//					Toast.makeText(this, "分享失败", 1000).show();
+//				}
+//			} catch (JSONException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			
 			break;
 		}
