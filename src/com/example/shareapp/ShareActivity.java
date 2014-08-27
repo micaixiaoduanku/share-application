@@ -3,34 +3,36 @@ package com.example.shareapp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.example.shareapp.HandlerControl.HandlerListener;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.example.shareapp.HandlerControl.HandlerListener;
+
 
 public class ShareActivity extends Activity implements HandlerListener{
 	private Button share_Btn = null;
 	private EditText appName = null;
 	private ListView list_prompt = null;
+	private MyAdpter myAdpter = null;
+	private ArrayList<AppInfoItem> appearAppInfoItemList = new ArrayList<AppInfoItem>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,7 +47,8 @@ public class ShareActivity extends Activity implements HandlerListener{
 			hashmap.put("appname", appitem.getAppname());
 			data.add(hashmap);
 		}
-		list_prompt.setAdapter(new SimpleAdapter(this, data, R.layout.list_item, new String[]{"appname"}, new int[]{R.id.app_name}));
+		myAdpter = new MyAdpter(this);
+		list_prompt.setAdapter(myAdpter);
 	}
 	private void setListeners(){
 		share_Btn.setOnClickListener(new OnClickListener() {
@@ -69,6 +72,8 @@ public class ShareActivity extends Activity implements HandlerListener{
 					list_prompt.setVisibility(View.GONE);
 				}else{
 					list_prompt.setVisibility(View.VISIBLE);
+					filterResolve(s.toString(), AppDataHelper.getInstance().getAppInfoItemList());
+					myAdpter.notifyDataSetChanged();
 				}
 			}
 			
@@ -90,14 +95,19 @@ public class ShareActivity extends Activity implements HandlerListener{
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				appName.setText(AppDataHelper.getInstance().getAppInfoItemList().get(position).getAppname());
+				appName.setText(appearAppInfoItemList.get(position).getAppname());
 				list_prompt.setVisibility(View.GONE);
 			}
 		});
 	};
 	
-	private void filterResolve(String str){
-		
+	private void filterResolve(String str,ArrayList<AppInfoItem> list){
+		appearAppInfoItemList.clear();
+		for(AppInfoItem appitem : list){
+			if(appitem.getAppname().contains(str)){
+				appearAppInfoItemList.add(appitem);
+			}
+		}
 	}
 
 	private void findViews(){
@@ -154,5 +164,39 @@ public class ShareActivity extends Activity implements HandlerListener{
 			break;
 		}
 	}
-	
+	private class MyAdpter extends BaseAdapter{
+		private Context context = null;
+		public MyAdpter(Context context){
+			this.context = context;
+		}
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return appearAppInfoItemList.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			// TODO Auto-generated method stub
+			if(convertView == null){
+				convertView = new ListAppItemView(context,appearAppInfoItemList.get(position).getAppname());
+			}else{
+				((ListAppItemView)convertView).setAppname(appearAppInfoItemList.get(position).getAppname());
+			}
+			return convertView;
+		}
+		
+	}
 }
