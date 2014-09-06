@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:background="@android:color/holo_blue_dark" >
+
+        <ImageView
+            android:id="@+id/srch_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/share_btn" />
+
+        <EditText
+            android:id="@+id/srch_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/srch_btn"
+            android:hint="Search App"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/buttom_line"
+        android:layout_width="match_parent"
+        android:layout_height="35dip"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/holo_blue_dark" >
+
+        <TextView
+            android:id="@+id/title_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="Share"
+            android:textColor="@android:color/white"
+            android:textSize="20dip" />
+    </RelativeLayout>
+
+    <GridView
+        android:id="@+id/app_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/buttom_line"
+        android:layout_below="@id/title"
+        android:numColumns="3" >
+    </GridView>
+
+</RelativeLayout>

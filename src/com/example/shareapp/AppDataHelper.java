@@ -4,8 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 public class AppDataHelper {
 	public static AppDataHelper instance = null;
@@ -18,13 +25,25 @@ public class AppDataHelper {
 		return instance;
 	}
 	public ArrayList<AppInfoItem> getInstalledPackageTitles(Context context){
-		List<PackageInfo> packages = context.getPackageManager().getInstalledPackages(0);
-		for(PackageInfo packageInfo : packages){
-			if((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM)==0){
-				String appName = packageInfo.applicationInfo.loadLabel(context.getPackageManager()).toString();
-				String pkgName = packageInfo.packageName; 
-				AppInfoItem appitem = new AppInfoItem(appName, pkgName);
-				appInfoItemList.add(appitem);
+		final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+		
+		final List<ResolveInfo> packages = context.getPackageManager().queryIntentActivities( mainIntent, 0);
+		for(ResolveInfo packageInfo : packages){
+			//filter system application 
+			if((packageInfo.activityInfo.flags & ApplicationInfo.FLAG_SYSTEM)==0){		
+				String appName = packageInfo.activityInfo.loadLabel(context.getPackageManager()).toString();
+				String pkgName =  packageInfo.activityInfo.packageName;
+				Drawable d = packageInfo.activityInfo.loadIcon(context.getPackageManager());
+				Bitmap bitmap = Utilities.createIconBitmap(d, context);
+				boolean isaddTolist = true;
+				if(pkgName.equals(context.getPackageName())){
+					isaddTolist = false;
+				}
+				if(isaddTolist){
+					AppInfoItem appitem = new AppInfoItem(appName, pkgName,bitmap);
+					appInfoItemList.add(appitem);
+				}
 			}
 		}
 		return appInfoItemList;
@@ -40,4 +59,5 @@ public class AppDataHelper {
 	public ArrayList<AppInfoItem> getAppInfoItemList(){
 		return appInfoItemList;
 	}
+	
 }

@@ -1,13 +1,17 @@
 package com.example.shareapp;
 
+import android.graphics.Bitmap;
+
 
 public class AppInfoItem {
 	private String appname = "";
 	private String pkgname = "";
 	private String url = "";
-	public AppInfoItem(String appname,String pkgname){
+	private Bitmap icon;
+	public AppInfoItem(String appname,String pkgname,Bitmap icon){
 		this.setAppname(appname);
 		this.setPkgname(pkgname);
+		this.setIcon(icon);
 	}
 	public String getPkgname() {
 		return pkgname;
@@ -26,5 +30,11 @@ public class AppInfoItem {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	public Bitmap getIcon() {
+		return icon;
+	}
+	public void setIcon(Bitmap icon) {
+		this.icon = icon;
 	}
 }

@@ -26,16 +26,25 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int share_btn=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f090003;
-        public static final int app_name=0x7f090000;
-        public static final int fuzzy_prompt=0x7f090001;
-        public static final int share_btn=0x7f090002;
+        public static final int action_settings=0x7f090009;
+        public static final int app_gridview=0x7f090005;
+        public static final int app_name=0x7f090008;
+        public static final int appicon=0x7f090006;
+        public static final int appname=0x7f090007;
+        public static final int buttom_line=0x7f090003;
+        public static final int srch_btn=0x7f090001;
+        public static final int srch_edit=0x7f090002;
+        public static final int title=0x7f090000;
+        public static final int title_content=0x7f090004;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int list_item=0x7f030001;
+        public static final int external_add_layout=0x7f030001;
+        public static final int grid_item_external=0x7f030002;
+        public static final int list_item=0x7f030003;
     }
     public static final class menu {
         public static final int main=0x7f080000;
