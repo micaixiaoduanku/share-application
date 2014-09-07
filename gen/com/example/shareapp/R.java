@@ -52,10 +52,7 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
-        public static final int share_btn=0x7f060005;
-        public static final int tips_input_apk_name=0x7f060002;
-        public static final int tips_input_message=0x7f060004;
-        public static final int tips_input_phone_number=0x7f060003;
+        public static final int share_fail_tips=0x7f060002;
     }
     public static final class style {
         /** 

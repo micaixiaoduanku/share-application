@@ -24,8 +24,6 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.example.shareapp.AppInfoItem;
-
 
 public class HttpHelper {
 	private String url_str = "http://tjx.be/sapk/s.php?p=";
@@ -70,7 +68,7 @@ public class HttpHelper {
 					JSONObject json = new JSONObject(result);
 					int returnCode =json.getInt("retcode");
 					String url = json.getString("short");
-					tri.m_String1 = returnCode+";"+appinfoitem.getAppname()+"-"+url;
+					tri.m_String1 = returnCode+";"+appinfoitem.getAppname()+"-"+url;					
 					HandlerControl.getInstance().sendTrigger(tri);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block

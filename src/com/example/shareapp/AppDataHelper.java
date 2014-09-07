@@ -8,11 +8,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 public class AppDataHelper {
 	public static AppDataHelper instance = null;
@@ -25,15 +21,18 @@ public class AppDataHelper {
 		return instance;
 	}
 	public ArrayList<AppInfoItem> getInstalledPackageTitles(Context context){
+		appInfoItemList.clear();
 		final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-		
+		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);		
 		final List<ResolveInfo> packages = context.getPackageManager().queryIntentActivities( mainIntent, 0);
 		for(ResolveInfo packageInfo : packages){
 			//filter system application 
 			if((packageInfo.activityInfo.flags & ApplicationInfo.FLAG_SYSTEM)==0){		
-				String appName = packageInfo.activityInfo.loadLabel(context.getPackageManager()).toString();
 				String pkgName =  packageInfo.activityInfo.packageName;
+				if(AppTypeTool.checkAppType(pkgName, context) == AppTypeTool.SYSTEM_REF_APP){
+					continue;
+				}
+				String appName = packageInfo.activityInfo.loadLabel(context.getPackageManager()).toString();
 				Drawable d = packageInfo.activityInfo.loadIcon(context.getPackageManager());
 				Bitmap bitmap = Utilities.createIconBitmap(d, context);
 				boolean isaddTolist = true;
