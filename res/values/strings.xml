@@ -3,6 +3,8 @@
 
     <string name="app_name">乐享</string>
     <string name="action_settings">Settings</string>
-    <string name="share_fail_tips">分享失败</string>
+    <string name="share_fail_notfound_res_form_server_tips">没有在服务器找到资源</string>
+    <string name="share_fail_exception_tips">分享失败</string>
+    <string name="network_error_tips">请链接网络</string>
 
 </resources>

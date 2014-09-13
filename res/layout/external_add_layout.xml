@@ -9,19 +9,24 @@
         android:layout_width="match_parent"
         android:layout_height="40dip"
         android:background="@android:color/holo_blue_dark" >
-
-        <ImageView
-            android:id="@+id/srch_btn"
+<RelativeLayout 
+       android:id="@+id/srch_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+       android:layout_alignParentRight="true"
+       android:padding="5dip"
+    >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+         
             android:src="@drawable/share_btn" />
-
+</RelativeLayout>
         <EditText
             android:id="@+id/srch_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/srch_btn"
+            android:layout_toLeftOf="@id/srch_btn"
             android:hint="Search App"
             android:visibility="gone" />
     </RelativeLayout>

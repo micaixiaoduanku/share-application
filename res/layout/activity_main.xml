@@ -4,9 +4,9 @@
     android:layout_height="match_parent"
     android:padding="15dip"
     tools:context=".ShareActivity" >
-    <com.example.shareapp.ShareLayout 
+    <com.example.shareapp.ui.ShareLayout 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
         
-        ></com.example.shareapp.ShareLayout>
+        ></com.example.shareapp.ui.ShareLayout>
 </RelativeLayout>

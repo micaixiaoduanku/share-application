@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/ShareActivity" >
         <activity
-            android:name="com.example.shareapp.ShareActivity"
+            android:name="com.example.shareapp.ui.ShareActivity"
             android:windowSoftInputMode="adjustPan"
            
             android:label="@string/app_name" >
@@ -27,4 +27,6 @@
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    
 </manifest>
